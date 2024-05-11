@@ -81,69 +81,69 @@ static inline void INIT_LIST_HEAD(list_head_t *list)
 
 /**
  * @brief  在两个已知的连续节点之间插入新的节点(仅限内部使用)
- * @param  new : 输出参数, 待插入的新节点
- * @param  prev: 输出参数, 已知的前一个节点
- * @param  next: 输出参数, 已知的后一个节点
+ * @param  new_node : 输出参数, 待插入的新节点
+ * @param  prev_node: 输出参数, 已知的前一个节点
+ * @param  next_node: 输出参数, 已知的后一个节点
  */
-static inline void __list_add(list_head_t *new, list_head_t *prev, list_head_t *next)
+static inline void __list_add(list_head_t *new_node, list_head_t *prev_node, list_head_t *next_node)
 {
-    next->prev = new;
-    new->next = next;
-    new->prev = prev;
-    prev->next = new;
+    next_node->prev = new_node;
+    new_node->next = next_node;
+    new_node->prev = prev_node;
+    prev_node->next = new_node;
 }
 
 /**
  * @brief  插入节点(头插法)
- * @param  new : 输出参数, 待插入的新节点
- * @param  head: 输出参数, 链表头节点
+ * @param  new_node : 输出参数, 待插入的新节点
+ * @param  head_node: 输出参数, 链表头节点
  */
-static inline void list_add(list_head_t *new, list_head_t *head)
+static inline void list_add(list_head_t *new_node, list_head_t *head_node)
 {
-    __list_add(new, head, head->next);
+    __list_add(new_node, head_node, head_node->next);
 }
 
 /**
  * @brief  插入节点(尾插法)
- * @param  new : 输出参数, 待插入的新节点
- * @param  head: 输出参数, 链表头节点
+ * @param  new_node : 输出参数, 待插入的新节点
+ * @param  head_node: 输出参数, 链表头节点
  */
-static inline void list_add_tail(list_head_t *new, list_head_t *head)
+static inline void list_add_tail(list_head_t *new_node, list_head_t *head_node)
 {
-    __list_add(new, head->prev, head);
+    __list_add(new_node, head_node->prev, head_node);
 }
 
 /**
  * @brief  删除两个已知的连续节点之间的节点(仅限内部使用)
- * @param  prev: 输出参数, 已知的前一个节点
- * @param  next: 输出参数, 已知的后一个节点
+ * @param  prev_node: 输出参数, 已知的前一个节点
+ * @param  next_node: 输出参数, 已知的后一个节点
  */
-static inline void __list_del(list_head_t *prev, list_head_t *next)
+static inline void __list_del(list_head_t *prev_node, list_head_t *next_node)
 {
-    next->prev = prev;
-    prev->next = next;
+    next_node->prev = prev_node;
+    prev_node->next = next_node;
 }
 
 /**
  * @brief  删除指定节点
- * @param  entry: 输出参数, 待删除的节点
+ * @param  entry_node: 输出参数, 待删除的节点
  */
-static inline void list_del(list_head_t *entry)
+static inline void list_del(list_head_t *entry_node)
 {
-    __list_del(entry->prev, entry->next);
-    entry->next = LIST_POISON1;
-    entry->prev = LIST_POISON2;
+    __list_del(entry_node->prev, entry_node->next);
+    entry_node->next = LIST_POISON1;
+    entry_node->prev = LIST_POISON2;
 }
 
 /**
  * @brief  判断链表是否为空
- * @param  head: 输入参数, 带判断的链表
+ * @param  head_node: 输入参数, 带判断的链表
  * @return 0: 链表非空
  *         1: 链表为空
  */
-static inline int list_empty(const list_head_t *head)
+static inline int list_empty(const list_head_t *head_node)
 {
-    return head->next == head;
+    return head_node->next == head_node;
 }
 
 /**
@@ -207,15 +207,15 @@ static inline int list_empty(const list_head_t *head)
 
 /**
  * @brief  替换节点(未断开old的前驱和后继)
- * @param  old: 输出参数, 待替换的节点
- * @param  new: 输出参数, 待插入的节点
+ * @param  old_node: 输出参数, 待替换的节点
+ * @param  new_node: 输出参数, 待插入的节点
  */
-static inline void list_replace(list_head_t *old, list_head_t *new)
+static inline void list_replace(list_head_t *old_node, list_head_t *new_node)
 {
-    new->next = old->next;
-    new->next->prev = new;
-    new->prev = old->prev;
-    new->prev->next = new;
+    new_node->next = old_node->next;
+    new_node->next->prev = new_node;
+    new_node->prev = old_node->prev;
+    new_node->prev->next = new_node;
 }
 
 /**
@@ -223,10 +223,10 @@ static inline void list_replace(list_head_t *old, list_head_t *new)
  * @param  old: 输出参数, 待替换的节点
  * @param  new: 输出参数, 待插入的节点
  */
-static inline void list_replace_init(list_head_t *old, list_head_t *new)
+static inline void list_replace_init(list_head_t *old_node, list_head_t *new_node)
 {
-    list_replace(old, new);
-    INIT_LIST_HEAD(old);
+    list_replace(old_node, new_node);
+    INIT_LIST_HEAD(old_node);
 }
 
 #ifdef __cplusplus
